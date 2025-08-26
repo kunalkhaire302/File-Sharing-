@@ -97,7 +97,7 @@ To run the project locally, follow these steps:
 **Frontend Deployment**
 -The frontend is hosted on GitHub Pages. To access the live version, visit:
 
-https://github.com/YashChaudhari999/FileShare
+https://github.com/kunalkhaire302/FileSharing-Website
 
 **Backend Deployment**
 -The backend is deployed on Render (or any chosen service). Make sure to update your frontend code to point to the correct backend API URL.
