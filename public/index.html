@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online File Sharing</title>
+    <link rel="stylesheet" href="style/hstyle.css">
+    <link rel="stylesheet" href="style/nav.css">
+    <link rel="stylesheet" href="style/loader.css">
+    <link rel="shortcut icon" href="./assests/favicon.ico" type="image/x-icon">
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token"); // Attempt to retrieve the token
+            const loginButton = document.getElementById("login-button"); // Select the login button
+
+            if (token) {
+                // If token exists, hide the login button
+                loginButton.style.display = 'none';
+            } else {
+                // If no token, make sure the login button is visible
+                loginButton.style.display = 'block';
+            }
+        });
+    </script>
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div id="logo-main">
+                <a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+            </div>
+            <div class="menu-toggle" onclick="hide()">&#9776;</div>
+            <div class="logo" id="logo-mainn">FileShare</div>
+            <ul class="nav-links">
+                <li id="logo-in"><a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+                </li>
+                <li class="logo" id="logo-in">FileShare</li>
+                <li><a href="index.html" style="color:white;">Home</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="abus.html">About Us</a></li>
+                <li><a href="login.html" class="login-btn" id="login-button"
+                        onmouseover="this.style.color='white'; ">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+    <!-- Loading Spinner -->
+    <div id="loading" style="display:none;" class="loading-container">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fast & Secure File Sharing</h1>
+            <p>Built for Speed and Security</p>
+            <a href="upload.html" class="cta-btn">Share Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature">
+            <img src="assests/fast.png" alt="Fast">
+            <h3>Fast Transfers</h3>
+            <p>Send files instantly with our cutting-edge technology.</p>
+        </div>
+        <div class="feature">
+            <img src="assests/secure.png" alt="Secure">
+            <h3>Secure Encryption</h3>
+            <p>Your files are safe and encrypted end-to-end.</p>
+        </div>
+        <div class="feature">
+            <img src="assests/storage.png" alt="Storage">
+            <h3>Large File Support</h3>
+            <p>Upload and share files of any size, hassle-free.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 FileShare. All rights reserved.</p>
+    </footer>
+    <script>
+        // Show the loading spinner when the page is loading
+        document.getElementById('loading').style.display = 'flex'; // Show spinner
+
+        // Hide the loading spinner once the page is fully loaded
+        window.addEventListener('load', function () {
+            document.getElementById('loading').style.display = 'none'; // Hide spinner
+        });
+    </script>
+    <script src="./script/nav.js"></script>
+
+</body>
+
+</html>

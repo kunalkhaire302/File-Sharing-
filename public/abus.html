@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Leadership Team</title>
+    <link rel="stylesheet" href="style/astyle.css">
+    <link rel="stylesheet" href="style/loader.css">
+    <link rel="stylesheet" href="style/nav.css">
+    <link rel="shortcut icon" href="./assests/favicon.ico" type="image/x-icon">
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token"); // Attempt to retrieve the token
+            const loginButton = document.getElementById("login-button"); // Select the login button
+
+            if (token) {
+                // If token exists, hide the login button
+                loginButton.style.display = 'none';
+            } else {
+                // If no token, make sure the login button is visible
+                loginButton.style.display = 'block';
+            }
+        });
+
+    </script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="logo-main">
+                <a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+            </div>
+            <div class="menu-toggle" onclick="hide()">&#9776;</div>
+            <div class="logo" id="logo-mainn">FileShare</div>
+            <ul class="nav-links">
+                <li id="logo-in"><a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+                </li>
+                <li class="logo" id="logo-in">FileShare</li>
+                <li><a href="index.html" style="color:white;">Home</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="abus.html">About Us</a></li>
+                <li><a href="login.html" class="login-btn" id="login-button"
+                        onmouseover="this.style.color='white'; ">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="loading" style="display:none;" class="loading-container">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p style="color: white; margin: 30px;">Fetching, please wait...</p>
+    </div>
+    <section class="leadership-section">
+        <h1>Group Member</h1>
+        <p>BTech IT 2<sup>nd</sup> Year</p>
+
+        <div class="team-container">
+            <div class="team-member">
+                <a href="https://github.com/YashChaudhari999" target="_blank">
+                    <div class="member-photo" id="member-photo1" style="background-color: #ff4400;">
+                    </div>
+                </a>
+                <h3>Yash Chaudhari</h3>
+                <p>A265<br>70012400171</p>
+
+            </div>
+
+            <div class="team-member">
+                <a href="https://github.com/Kunalkhaire302" target="_blank">
+                    <div class="member-photo" id="member-photo2" style="background-color: #ff4400;"></div>
+                </a>
+                <h3>Kunal Khaire</h3>
+                <p>A269<br>70012400177</p>
+
+            </div>
+
+            <div class="team-member">
+                <a href="https://github.com/chetan-patil17" target="_blank">
+                    <div class="member-photo" id="member-photo3" style="background-color: #ff4400;"></div>
+                </a>
+                <h3>Chetan Patil</h3>
+                <p>A273 <br>70012400189</p>
+
+            </div>
+        </div>
+    </section>
+    <script>
+        // Show the loading spinner when the page is loading
+        document.getElementById('loading').style.display = 'flex'; // Show spinner
+
+        // Hide the loading spinner once the page is fully loaded
+        window.addEventListener('load', function () {
+            document.getElementById('loading').style.display = 'none'; // Hide spinner
+        });
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("Checking token..."); // Debug statement
+
+            const token = localStorage.getItem("token"); // Retrieve the token
+
+            if (token) {
+                const payload = JSON.parse(atob(token.split('.')[1])); // Decode payload from the JWT
+                const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+
+                // Check if token is expired
+                if (payload.exp < currentTime) {
+                    localStorage.removeItem("token"); // Remove the expired token
+                    document.getElementById("login-button").style.display = 'block'; // Show login button
+                } else {
+                    document.getElementById("login-button").style.display = 'none'; // Hide login button
+                }
+            } else {
+                document.getElementById("login-button").style.display = 'block'; // Show login button if no token
+            }
+        });
+    </script>
+
+    <script src="./script/nav.js"></script>
+</body>
+
+</html>

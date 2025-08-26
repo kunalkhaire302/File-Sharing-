@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="shortcut icon" href="./assests/favicon.ico" type="image/x-icon">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="./style/loader.css">
+    <link rel="stylesheet" href="./style/login.css">
+
+    <title>Login</title>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Function to toggle between login and signup forms
+            function toggleForm(action) {
+                const form = document.getElementById("auth-form");
+                const formTitle = document.querySelector(".form-title");
+
+                if (action === "login") {
+                    form.action = "/login";  // Set form action to login
+                    formTitle.textContent = "Login";
+                    document.querySelector(".signup-fields").style.display = "none";  // Hide extra fields for signup
+                    document.getElementById("submit-button").value = "Login";  // Change button text
+                } else if (action === "signup") {
+                    form.action = "/register";  // Set form action to register
+                    formTitle.textContent = "Signup";
+                    document.querySelector(".signup-fields").style.display = "block";  // Show extra fields for signup
+                    document.getElementById("submit-button").value = "Signup";  // Change button text
+                }
+            }
+
+            // JavaScript function for real-time email validation
+
+            function validateLoginEmail() {
+                var email = document.getElementById("login-email").value;
+                var errorContainer = document.getElementById("login-email-error");
+
+                if (email.length === 0) {
+                    errorContainer.textContent = "Email is required";
+                } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    errorContainer.textContent = "Invalid email format";
+                } else {
+                    errorContainer.textContent = ""; // Clear the error message
+                }
+            }
+
+            // JavaScript function for real-time password validation
+            function validateLoginPassword() {
+                var password = document.getElementById("login-password").value;
+                var errorContainer = document.getElementById("login-password-error");
+
+                if (
+                    password.length < 8 ||
+                    password.length > 20 ||
+                    !/\d/.test(password)
+                ) {
+                    errorContainer.textContent =
+                        "Password must be 8-20 characters and include at least one number";
+                } else {
+                    errorContainer.textContent = ""; // Clear the error message
+                }
+            }
+
+            // JavaScript function for real-time username validation
+            function validateName() {
+                var name = document.getElementById("name").value;
+                var errorContainer = document.getElementById("name-error");
+
+                if (name.length < 5) {
+                    errorContainer.textContent = "Name must be at least 5 characters long";
+                } else {
+                    errorContainer.textContent = ""; // Clear the error message
+                }
+            }
+
+            // JavaScript function for real-time email validation
+            function validateEmail() {
+                var email = document.getElementById("email").value;
+                var errorContainer = document.getElementById("email-error");
+
+                if (email.length === 0) {
+                    errorContainer.textContent = "Email is required";
+                } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    errorContainer.textContent = "Invalid email format";
+                } else {
+                    errorContainer.textContent = ""; // Clear the error message
+                }
+            }
+
+            // JavaScript function for real-time password validation
+            function validatePassword() {
+                var password = document.getElementById("password").value;
+                var errorContainer = document.getElementById("password-error");
+
+                if (
+                    password.length < 8 ||
+                    password.length > 20 ||
+                    !/\d/.test(password)
+                ) {
+                    errorContainer.textContent =
+                        "Password must be 8-20 characters and include at least one number";
+                } else {
+                    errorContainer.textContent = ""; // Clear the error message
+                }
+            }
+
+            // JavaScript function for real-time confirm password validation
+            function validateConfirmPassword() {
+                var confirmPassword = document.getElementById("confirmPassword").value;
+                var password = document.getElementById("password").value;
+                var errorContainer = document.getElementById("confirmPassword-error");
+
+                if (password !== confirmPassword) {
+                    errorContainer.textContent = "Passwords do not match";
+                    console.log("Passwords do not match");
+                } else {
+                    errorContainer.textContent = "";
+                    console.log("Passwords match");
+
+                }
+            }
+            document.getElementById("login-email").addEventListener("input", validateLoginEmail);
+            document.getElementById("login-password").addEventListener("input", validateLoginPassword);
+            document.getElementById("name").addEventListener("input", validateName);
+            document.getElementById("email").addEventListener("input", validateEmail);
+            document.getElementById("password").addEventListener("input", validatePassword);
+            document.getElementById("confirmPassword").addEventListener("input", validateConfirmPassword);
+
+
+            document.getElementById("login-link").addEventListener("click", function () {
+                toggleForm("login");
+            });
+            document.getElementById("signup-link").addEventListener("click", function () {
+                toggleForm("signup");
+            });
+
+            // Default to login form on load
+            toggleForm("login");
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Loading Spinner -->
+        <div id="loading" style="display:none;" class="loading-container">
+            <div class="spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <p style="color: white; margin: 30px;">Fetching, please wait...</p>
+        </div>
+        <div class="container" id="container">
+            <div class="forms">
+                <!-- Login Form -->
+                <div class="form login">
+                    <span class="title">Login</span>
+
+                    <form method="post" action="/login">
+                        <div class="input-field">
+                            <input type="email" id="login-email" name="lemail" placeholder="Enter your email" required>
+                            <i class="uil uil-envelope icon"></i>
+                        </div>
+                        <small id="login-email-error" class="error-message"></small>
+                        <div class="input-field">
+                            <input type="password" id="login-password" name="lpassword"
+                                placeholder="Enter your password" required>
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw" id="toggleLoginPassword"
+                                onclick="togglePasswordVisibility('login-password','toggleLoginPassword')"></i>
+                        </div>
+                        <small id="login-password-error" class="error-message"></small>
+
+                        <div class="checkbox-text">
+                            <div class="checkbox-content">
+                                <input type="checkbox" id="logCheck" name="remember">
+                                <label for="logCheck" class="text">Remember me</label>
+                            </div>
+                        </div>
+
+                        <div class="input-field button">
+                            <input type="submit" value="Login">
+                        </div>
+                        <div class="loginError">
+                            <!-- Error Messages -->
+                        </div>
+                    </form>
+
+                    <div class="login-signup">
+                        <span class="text">Not a member?
+                            <a href="#" class="text signup-link">Signup Now</a>
+                        </span>
+                    </div>
+                </div>
+
+
+                <!-- Registration Form -->
+                <div class="form signup">
+                    <span class="title">Registration</span>
+
+                    <form method="post" action="/register">
+                        <div class="input-field">
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                            <i class="uil uil-user"></i>
+                        </div>
+                        <small id="name-error" class="error-message"></small> <!-- Error message for name validation -->
+                        <div class="input-field">
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            <i class="uil uil-envelope icon"></i>
+                        </div>
+                        <small id="email-error" class="error-message"></small>
+                        <!-- Error message for email validation -->
+                        <div class="input-field">
+                            <input type="password" id="password" name="password" placeholder="Create a password"
+                                required>
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw" id="togglepassword"
+                                onclick="togglePasswordVisibility('password','togglepassword')"></i>
+                        </div>
+                        <small id="password-error" class="error-message"></small>
+                        <!-- Error message for password validation -->
+                        <div class="input-field">
+                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                placeholder="Confirm password" required>
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw" id="toggleconfirmpassword"
+                                onclick="togglePasswordVisibility('confirmPassword', 'toggleconfirmpassword')"></i>
+                        </div>
+                        <small id="confirmPassword-error" class="error-message"></small>
+                        <!-- Error message for confirm password validation -->
+
+                        <div class="checkbox-text">
+                            <div class="checkbox-content">
+                                <input type="checkbox" id="termCon" required>
+                                <label for="termCon" class="text">I accepted all terms and conditions</label>
+                            </div>
+                        </div>
+
+                        <div class="input-field button">
+                            <input type="submit" value="Signup" name="signup-submit">
+                        </div>
+                        <div class="registerError">
+                            <!-- Error Messages -->
+                        </div>
+                    </form>
+
+                    <div class="login-signup">
+                        <span class="text">Already a member?
+                            <a href="#" class="text login-link" onclick="toggleFormHeight()">Login Now</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+        // Show the loading spinner when the page is loading
+        document.getElementById('loading').style.display = 'flex'; // Show spinner
+
+        // Hide the loading spinner once the page is fully loaded
+        window.addEventListener('load', function () {
+            document.getElementById('loading').style.display = 'none'; // Hide spinner
+        });
+        function togglePasswordVisibility(passwordId, iconId) {
+            var passwordInput = document.getElementById(passwordId);
+            var icon = document.getElementById(iconId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.className = "uil uil-eye showHidePw";
+                console.log("Changing type to text");
+            } else {
+                passwordInput.type = "password";
+                icon.className = "uil uil-eye-slash showHidePw";
+                console.log("Changing type to password");
+            }
+        }
+
+        const form = document.querySelector(".form.login form"); // Selecting the form
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevent form from submitting the traditional way
+
+            // Getting form data
+            const email = document.querySelector("#login-email").value;
+            const password = document.querySelector("#login-password").value;
+            const remember = document.querySelector("#logCheck").checked;
+            console.log(email, password, remember);
+            // Sending a POST request to the server
+            try {
+                const response = await fetch('/login', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ lemail: email, lpassword: password, remember }), // Send email, password & remember
+
+                });
+
+                const data = await response.json(); // Parse the JSON response
+
+                const messageDiv = document.querySelector(".loginError"); // Div for error/success messages
+
+                if (response.ok) {
+                    // Login successful, display success message
+                    messageDiv.innerHTML = `<p style="color: green;">${data.message}</p>`;
+
+
+                    localStorage.setItem("token", data.token);
+
+                    window.location.href = "/index.html";
+                } else {
+                    // Login failed, display error message
+                    messageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                }
+            } catch (error) {
+                console.error("Error logging in:", error);
+                const messageDiv = document.querySelector(".loginError");
+                messageDiv.innerHTML = `<p style="color: red;">Something went wrong. Please try again.</p>`;
+            }
+        });
+
+        const registrationForm = document.querySelector(".form.signup form");
+
+        registrationForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevent form from submitting the traditional way
+
+            // Getting form data
+            const name = document.querySelector("#name").value;
+            const email = document.querySelector("#email").value;
+            const password = document.querySelector("#password").value;
+            const confirmPassword = document.querySelector("#confirmPassword").value;
+
+            // Sending a POST request to the server
+            try {
+                const response = await fetch("/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name, email, password }), // Send name, email, and password
+                });
+
+                const data = await response.json(); // Parse the JSON response
+
+                const messageDiv = document.querySelector(".registerError"); // Div for error/success messages
+
+                if (response.ok) {
+                    // Registration successful, display success message
+                    messageDiv.innerHTML = `<p style="color: green;">${data.message}</p>`;
+
+                    window.location.href = "login.html";
+                } else {
+                    // Registration failed, display error message
+                    messageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                }
+            } catch (error) {
+                console.error("Error registering:", error);
+                const messageDiv = document.querySelector(".registerError");
+                messageDiv.innerHTML = `<p style="color: red;">Something went wrong. Please try again.</p>`;
+            }
+        });
+    </script>
+    <script src="./script/login.js"></script>
+
+</body>
+
+</html>

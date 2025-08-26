@@ -1,0 +1,129 @@
+.menu-toggle {
+    display: none;
+    /* Hide hamburger menu on larger screens */
+}
+
+#logo-main {
+    display: none;
+}
+
+#logo-mainn {
+    display: none;
+}
+
+/* Header */
+header {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #007aff;
+}
+
+.login-btn {
+    background-color: #007aff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    box-shadow: 0 0 2px #ffffff, 0 0 10px #ffffff, 0 0 10px #ffffff, 0 0 10px #ffffff, 0 0 10px #ffffff;
+}
+
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #logo-main {
+        display: flex;
+    }
+
+    #logo-mainn {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 24px;
+        color: #fff;
+        cursor: pointer;
+        order: 1;
+        /* Ensure hamburger appears after the logo */
+    }
+
+    #logo-in {
+        display: none;
+    }
+
+    /* Hide nav-links until the hamburger is clicked */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        order: 3;
+        /* Ensure nav-links appear below the logo and hamburger */
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+    }
+
+    .nav-links a {
+        font-size: 18px;
+        text-align: center;
+        width: 58%;
+    }
+
+    .login-btn {
+        background-color: #007aff;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-align: center;
+        width: 100%;
+    }
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileShare - Download</title>
+    <link rel="stylesheet" href="style/dstyle.css">
+    <link rel="stylesheet" href="style/loader.css">
+    <link rel="stylesheet" href="style/nav.css">
+    <link rel="shortcut icon" href="./assests/favicon.ico" type="image/x-icon">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token"); // Attempt to retrieve the token
+            const loginButton = document.getElementById("login-button"); // Select the login button
+
+            if (token) {
+                // If token exists, hide the login button
+                loginButton.style.display = 'none';
+            } else {
+                // If no token, make sure the login button is visible
+                loginButton.style.display = 'block';
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div id="logo-main">
+                <a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+            </div>
+            <div class="menu-toggle" onclick="hide()">&#9776;</div>
+            <div class="logo" id="logo-mainn">FileShare</div>
+            <ul class="nav-links">
+                <li id="logo-in"><a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+                </li>
+                <li class="logo" id="logo-in">FileShare</li>
+                <li><a href="index.html" style="color:white;">Home</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="abus.html">About Us</a></li>
+                <li><a href="login.html" class="login-btn" id="login-button"
+                        onmouseover="this.style.color='white'; ">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="loading" style="display:none;" class="loading-container">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p style="color: white; margin: 30px;">Fetching, please wait...</p>
+    </div>
+    <!-- Download Section -->
+    <section class=" download-section">
+        <div class="container">
+            <h1>Enter the Code to Download Your File</h1>
+            <p>Please enter the code provided to you to access the file download:</p>
+            <form id="download-form" onsubmit="return false;">
+                <input type="text" id="download-code" placeholder="Enter code here..." required>
+                <button type="button" id="download-button" disabled onclick="verifyCode()">Download</button>
+            </form>
+            <p id="error-message" style="color:red; display:none; margin: 10px;">Incorrect code. Please
+                try again.</p>
+            <a id="download-link" href="#" style="display:none;" download>Click here to download your
+                file</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 FileShare. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Enable download button when code is entered
+        document.getElementById('download-code').addEventListener('input', function () {
+            const codeInput = document.getElementById('download-code');
+            const downloadButton = document.getElementById('download-button');
+
+            // Enable the button only if the input is not empty
+            downloadButton.disabled = codeInput.value.trim() === '';
+        });
+
+        async function verifyCode() {
+            const code = document.getElementById('download-code').value.trim();
+            const loadingSpinner = document.getElementById('loading');
+
+            // Show the loading spinner while fetching the file
+            loadingSpinner.style.display = 'flex';
+
+            try {
+                // Send GET request to the download endpoint
+                const response = await fetch(`/download/${encodeURIComponent(code)}`, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    const contentDisposition = response.headers.get('Content-Disposition');
+                    const originalFileName = contentDisposition.split('filename=')[1].replace(/"/g, ''); // Extract filename from headers
+                    const blob = await response.blob(); // Get the binary data
+                    const url = window.URL.createObjectURL(blob); // Create a URL for the blob
+
+                    // Create a link to download the file
+                    const downloadLink = document.getElementById('download-link');
+                    downloadLink.href = url;
+                    downloadLink.style.display = 'block'; // Make link visible
+                    downloadLink.style.margin = '10px';
+                    downloadLink.textContent = 'Click here to download your file';
+                    downloadLink.download = originalFileName; // Set the original filename for download
+
+                    // Clear any error message
+                    document.getElementById('error-message').style.display = 'none';
+                } else {
+                    // Show error message
+                    const errorText = await response.text(); // Get error response text
+                    document.getElementById('error-message').textContent = errorText; // Display the error message
+                    document.getElementById('error-message').style.display = 'block'; // Show error message
+                    document.getElementById('download-link').style.display = 'none'; // Hide download link
+                }
+            } catch (error) {
+                // Handle network errors or other exceptions
+                document.getElementById('error-message').textContent = 'Network error. Please try again.';
+                document.getElementById('error-message').style.display = 'block'; // Show error message
+                document.getElementById('download-link').style.display = 'none'; // Hide download link
+            } finally {
+                // Hide the loading spinner once the fetch is complete
+                loadingSpinner.style.display = 'none'; // Hide spinner
+            }
+        }
+
+        // Show the loading spinner when the page is loading
+        document.getElementById('loading').style.display = 'flex'; // Show spinner
+
+        // Hide the loading spinner once the page is fully loaded
+        window.addEventListener('load', function () {
+            document.getElementById('loading').style.display = 'none'; // Hide spinner
+        });
+    </script>
+
+    <script src="./script/nav.js"></script>
+</body>
+
+</html>

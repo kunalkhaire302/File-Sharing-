@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileShare - Upload</title>
+    <link rel="stylesheet" href="style/ustyle.css">
+    <link rel="stylesheet" href="style/loader.css">
+    <link rel="stylesheet" href="style/nav.css">
+    <link rel="shortcut icon" href="./assests/favicon.ico" type="image/x-icon">
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token"); // Attempt to retrieve the token
+            const loginButton = document.getElementById("login-button"); // Select the login button
+
+            if (token) {
+                // If token exists, hide the login button
+                loginButton.style.display = 'none';
+            } else {
+                // If no token, make sure the login button is visible
+                loginButton.style.display = 'block';
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div id="logo-main">
+                <a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+            </div>
+            <div class="menu-toggle" onclick="hide()">&#9776;</div>
+            <div class="logo" id="logo-mainn">FileShare</div>
+            <ul class="nav-links">
+                <li id="logo-in"><a href="index.html"><img src="assests/mainlogo.png" alt="" style="width: 40px;"></a>
+                </li>
+                <li class="logo" id="logo-in">FileShare</li>
+                <li><a href="index.html" style="color:white;">Home</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="abus.html">About Us</a></li>
+                <li><a href="login.html" class="login-btn" id="login-button"
+                        onmouseover="this.style.color='white'; ">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Loading Spinner -->
+    <div id="loading" style="display:none;" class="loading-container">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p style="color: white; margin: 30px;">Uploading, please wait...</p>
+    </div>
+
+    <!-- Upload Section -->
+    <section class="upload-section">
+        <div class="container">
+            <h1>Upload Your File</h1>
+            <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload">
+                <input type="file" name="file" id="file" required>
+                <button type="submit" id="upload-button" disabled>Upload</button>
+            </form>
+            <p id="upload-message"></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 FileShare. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('upload-form');
+        const fileInput = document.getElementById('file');
+        const uploadButton = document.getElementById('upload-button');
+        const loadingContainer = document.getElementById('loading');
+
+        // Get upload count from cookies (or initialize if not set)
+        let uploadCount = getCookie('uploadCount') ? parseInt(getCookie('uploadCount')) : 0;
+
+        // Enable upload button when a file is chosen
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                if (uploadCount >= 5 && !isUserLoggedIn()) {
+                    alert('You need to register or log in to upload more files.');
+                    // Redirect to login page
+                    window.location.href = '/login.html';
+                } else {
+                    uploadButton.disabled = false; // Enable the button
+                }
+            } else {
+                uploadButton.disabled = true; // Keep it disabled
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(form); // Create FormData object
+
+            // Show loading spinner
+            loadingContainer.style.display = 'flex'; // Show loading spinner
+
+            // Send POST request to upload file
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Parse JSON response
+            const result = await response.json();
+
+            // Hide loading spinner
+            loadingContainer.style.display = 'none'; // Hide loading spinner
+
+            if (response.ok) {
+                alert(`${result.message} Use this code to download: ${result.uniqueCode}`);
+
+                // Increment upload count and save to cookies
+                uploadCount++;
+                setCookie('uploadCount', uploadCount, 7); // Set for 7 days
+
+                if (uploadCount >= 5 && !isUserLoggedIn()) {
+                    alert('You need to log in to upload more files.');
+                    // Redirect to login page
+                    window.location.href = '/login.html';
+                }
+            } else {
+                alert('Error uploading the file.');
+            }
+        });
+
+        function isUserLoggedIn() {
+            // Check if the JWT token exists in localStorage
+            const token = localStorage.getItem('token');
+            return token !== null; // Return true if token exists, false otherwise
+        }
+
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+    </script>
+
+    <script src="./script/nav.js"></script>
+</body>
+
+</html>
