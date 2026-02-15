@@ -175,9 +175,6 @@ Backend Repository – FileShare Backend
 
 <p align="center"> <a href="https://github.com/kunalkhaire302/FileShare/issues">Report Bug</a> • <a href="https://github.com/YashChaudhari999/FileShare/issues">Request Feature</a> </p>
 <div align="center">
-⭐ If you find this project useful, please give it a star! ⭐
-https://img.shields.io/github/stars/YashChaudhari999/FileShare?style=social
 
 Made with ❤️ and Node.js
 
-</div> ```
