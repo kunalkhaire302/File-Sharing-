@@ -70,7 +70,7 @@ Built with a **Node.js + Express** backend and a **static frontend** hosted on G
 
 ### **1. Clone the Repository**
 ```bash
-git clone https://github.com/YashChaudhari999/FileShare.git
+git clone https://github.com/kunalkhaire302/FileShare.git
 cd FileShare
 2. Install Backend Dependencies
 bash
